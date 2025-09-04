@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <title>Invitación de Boda — Délver & Vielka</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400,700&family=Montserrat:wght@300,400,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    :root {
+      --bg: #F0EEE9;
+      --bg-card: #fdfcf9;
+      --ink: #434240;
+      --accent: #8A8D7A;
+      --accent-light: #b0b3a2;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      height: 100svh;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: 'Montserrat', system-ui, sans-serif;
+      overflow-x: hidden;
+    }
+    /* LANDING */
+    #landing-screen {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      height: 100svh;
+      z-index: 1;
+    }
+    .top-photo-container {
+      position: relative;
+      height: 80vh;
+      width: 100%;
+      overflow: hidden;
+      animation: fadeInDown 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95) 70%, transparent 100%);
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+      box-shadow: inset 0 -30px 80px rgba(0,0,0,0.1);
+    }
+    .top-photo-container img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 35%;
+      display: block;
+      filter: brightness(0.95) contrast(1.1) saturate(1.1);
+      transform: scale(1.1);
+      animation: zoomParallax 6s ease-out forwards;
+    }
+    .top-photo-container::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+      pointer-events: none;
+    }
+    @keyframes zoomParallax {
+      0% { transform: scale(1.15) translateY(0); }
+      50% { transform: scale(1.1) translateY(-5px); }
+      100% { transform: scale(1) translateY(0); }
+    }
+    .bottom-content-area {
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: center;
+      width: 100%;
+    }
+    .landing-content {
+      position: relative;
+      width: 100%;
+      background: #ffffff;
+      text-align: center;
+      padding: 0.5rem 1.5rem 4rem; 
+      min-height: 40vh;
+      box-shadow: 0 -10px 50px -20px rgba(0,0,0,0.15);
+      z-index: 10;
+      margin-top: 6rem;
+    }
+    .landing-wave {
+      position: absolute;
+      top: -100px;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      z-index: 0;
+    }
+    .intro-text, .names, .date, .seal-prompt { opacity: 0; animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+    .intro-text { animation-delay: 0.8s; }
+    .names { animation-delay: 1s; }
+    .date { animation-delay: 1.2s; }
+    .seal-prompt { animation-delay: 1.4s; }
+    .intro-text {
+      text-transform: uppercase;
+      letter-spacing: 0.3em;
+      font-size: 0.8rem;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .names {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.2rem, 8vw, 3.5rem);
+      margin: 0;
+      line-height: 1.1;
+      font-weight: 700;
+      text-shadow: 1px 1px 2px #b0b3a2;
+    }
+    .date {
+      font-size: 1rem;
+      margin: 1rem 0 2rem;
+      color: #8c8a86;
+    }
+    .seal-prompt {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 80px;
+      height: 80px;
+      background: var(--accent);
+      color: white;
+      border-radius: 50%;
+      font-weight: 600;
+      font-size: 14px;
+      cursor: pointer;
+      border: none;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      transition: transform 0.3s ease, background-color 0.3s ease;
+    }
+    .seal-prompt:hover { transform: scale(1.1); }
+    .seal-prompt:active { transform: scale(1); background-color: var(--accent-light); }
+
+    /* Pétalos */
+    .petal {
+      position: fixed;
+      top: -10vh;
+      left: 0;
+      width: 10px;
+      height: 20px;
+      border-radius: 50%;
+      opacity: 0.8;
+      filter: blur(.5px);
+      animation: fall linear forwards;
+      background: linear-gradient(180deg, #f7d1c4, #f4a69c);
+      z-index: 5;
+    }
+
+    /* Confeti */
+    #confetti-container {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 999;
+      overflow: visible;
+    }
+    .confetti-piece {
+      position: absolute;
+      width: 8px;
+      height: 16px;
+      border-radius: 4px;
+      pointer-events: none;
+    }
+
+    /* MAIN CONTENT */
+    #main-content { display: none; opacity: 0; transition: opacity 1s; padding: 2rem; font-family: 'Montserrat', sans-serif; color: var(--ink); }
+    #main-content h2 { font-family: 'Playfair Display', serif; font-size: 2.5rem; text-align: center; margin-bottom: 1rem; }
+    #main-content h3 { margin-top: 1.5rem; color: var(--accent); }
+    #main-content .map { width: 100%; height: 250px; margin: 1rem 0; border-radius: 1rem; }
+    #main-content .gallery { display: flex; gap: 1rem; overflow-x: auto; padding: 1rem 0; }
+    #main-content .gallery img { border-radius: 1rem; width: 250px; height: 150px; object-fit: cover; transition: transform 0.3s; }
+    #main-content .gallery img:hover { transform: scale(1.05); }
+    #main-content .section-romantic { text-align: center; font-size: 1.2rem; margin-top: 2rem; animation: fadeInUp 1.2s ease forwards; }
+
+    @keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes fall { to { transform: translateY(110vh) rotate(540deg) scale(var(--scale)); opacity: .4; } }
+
+    @media (max-width: 480px) {
+      .top-photo-container { height: 40vh; }
+      .top-photo-container img { object-position: center 40%; }
+      .landing-content { width: 100vw; padding: 0.5rem 1.5rem 2rem; }
+      #main-content .gallery img { width: 180px; height: 120px; }
+    }
+  </style>
+</head>
+<body>
+
+<audio id="bg-music" loop autoplay>
+  <source src="cancion.m4a" type="audio/mpeg">
+  Tu navegador no soporta el elemento de audio.
+</audio>
+
+<div id="landing-screen">
+  <div class="top-photo-container">
+    <img src="https://res.cloudinary.com/dfzkl8cpg/images/c_scale,w_1248,h_780/f_auto,q_auto/v1717641498/Anillo-Perfecto-para-Boda-1/Anillo-Perfecto-para-Boda-1.jpg?_i=AA" alt="Anillo Perfecto para Boda">
+  </div>
+  <div class="bottom-content-area">
+    <div class="landing-content">
+      <svg class="landing-wave" viewBox="0 0 1920 200" preserveAspectRatio="none">
+        <path fill="#ffffff" d="M0,80 C480,0 960,160 1440,80 C1680,40 1920,120 1920,80 L1920,200 L0,200 Z"></path>
+      </svg>
+      <div class="intro-text">Nos Casamos</div>
+      <h1 class="names">Délver & Vielka</h1>
+      <p class="date">Sábado, 25 de Octubre, 2025</p>
+      <button class="seal-prompt"><span>Abrir</span></button>
+    </div>
+  </div>
+</div>
+
+<div id="confetti-container"></div>
+
+<!-- CONTENIDO PRINCIPAL -->
+<div id="main-content">
+  <section class="section-intro">
+    <h2>¡Bienvenidos a Nuestra Boda!</h2>
+    <p>Estamos felices de compartir este día tan especial contigo.</p>
+  </section>
+
+  <section class="section-details">
+    <h3>Ceremonia</h3>
+    <p>Lugar: <strong>Iglesia Nuestra Señora del Carmen</strong></p>
+    <p>Hora: <strong>4:00 PM</strong></p>
+    <div id="map-ceremony" class="map"></div>
+
+    <h3>Recepción</h3>
+    <p>Lugar: <strong>Salón Jardín Villa Bella</strong></p>
+    <p>Hora: <strong>6:00 PM</strong></p>
+    <div id="map-reception" class="map"></div>
+  </section>
+
+  <section class="section-gallery">
+    <h3>Galería de Fotos</h3>
+    <div class="gallery">
+      <img src="https://res.cloudinary.com/dfzkl8cpg/image/upload/v1717641498/foto1.jpg" alt="Foto 1">
+      <img src="https://res.cloudinary.com/dfzkl8cpg/image/upload/v1717641498/foto2.jpg" alt="Foto 2">
+      <img src="https://res.cloudinary.com/dfzkl8cpg/image/upload/v1717641498/foto3.jpg" alt="Foto 3">
+    </div>
+  </section>
+
+  <section class="section-romantic">
+    <h3>Detalles Románticos</h3>
+    <p>💌 Mensajes, animaciones de pétalos y luces suaves para acompañar nuestra historia.</p>
+  </section>
+</div>
+
+<!-- Leaflet.js -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const bgMusic = document.getElementById('bg-music');
+
+  setTimeout(() => {
+    bgMusic.muted = false;
+    bgMusic.play().catch(() => console.log('Autoplay bloqueado, se reproducirá al interactuar'));
+  }, 100);
+
+  // 🌸 Pétalos cayendo
+  const spawnPetal = () => {
+    const el = document.createElement('div');
+    el.className = 'petal';
+    const scale = 0.5 + Math.random() * 0.7;
+    el.style.setProperty('--scale', scale);
+    el.style.left = Math.random() * 100 + 'vw';
+    el.style.animationDuration = (8 + Math.random() * 8) + 's';
+    el.style.opacity = (0.5 + Math.random() * 0.5);
+    document.body.appendChild(el);
+    setTimeout(() => el.remove(), 18000);
+  };
+  setInterval(spawnPetal, 500);
+
+  // 🎉 Confeti al abrir
+  const openButton = document.querySelector('.seal-prompt');
+  const landingScreen = document.getElementById('landing-screen');
+  const confettiContainer = document.getElementById('confetti-container');
+
+  const CONFETTI_COLORS = ['#8A8D7A', '#b0b3a2', '#434240', '#fdfcf9'];
+  const CONFETTI_COUNT = 100;
+
+  function launchConfetti(origin) {
+    for (let i = 0; i < CONFETTI_COUNT; i++) createConfettiPiece(origin);
+  }
+
+  function createConfettiPiece(origin) {
+    const el = document.createElement('div');
+    el.className = 'confetti-piece';
+    el.style.backgroundColor = CONFETTI_COLORS[Math.floor(Math.random() * CONFETTI_COLORS.length)];
+    const angle = Math.random() * Math.PI * 2;
+    const velocity = 5 + Math.random() * 10;
+    let x = origin.x, y = origin.y;
+    let vx = Math.cos(angle) * velocity;
+    let vy = Math.sin(angle) * velocity - 10;
+    let rotation = Math.random() * 360;
+    const rotationSpeed = -5 + Math.random() * 10;
+    const gravity = 0.4;
+    let opacity = 1;
+    const fadeSpeed = 0.01 + Math.random() * 0.01;
+    confettiContainer.appendChild(el);
+    (function update() {
+      x += vx; y += vy; vy += gravity; rotation += rotationSpeed; opacity -= fadeSpeed;
+      el.style.transform = `translate(${x}px, ${y}px) rotate(${rotation}deg)`;
+      el.style.opacity = opacity;
+      if (opacity > 0) requestAnimationFrame(update); else el.remove();
+    })();
+  }
+
+  openButton.addEventListener('click', () => {
+    bgMusic.play();
+    const rect = openButton.getBoundingClientRect();
+    const origin = { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 + window.scrollY };
+    launchConfetti(origin);
+    landingScreen.style.opacity = '0';
+    landingScreen.style.pointerEvents = 'none';
+
+    // Mostrar contenido principal
+    const mainContent = document.getElementById('main-content');
+    mainContent.style.display = 'block';
+    setTimeout(() => mainContent.style.opacity = '1', 50);
+
+    // Inicializar mapas
+    initMaps();
+  }, { once: true });
+
+  function initMaps() {
+    const ceremonyMap = L.map('map-ceremony').setView([12.134, -86.250], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(ceremonyMap);
+    L.marker([12.134, -86.250]).addTo(ceremonyMap).bindPopup('Iglesia Nuestra Señora del Carmen');
+
+    const receptionMap = L.map('map-reception').setView([12.140, -86.245], 15);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '&copy; OpenStreetMap contributors' }).addTo(receptionMap);
+    L.marker([12.140, -86.245]).addTo(receptionMap).bindPopup('Salón Jardín Villa Bella');
+  }
+});
+</script>
+</body>
+</html>

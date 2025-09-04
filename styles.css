@@ -1,0 +1,590 @@
+/* =======================================
+   🎨 VARIABLES Y RESETEO
+======================================= */
+:root {
+  --bg: #F0EEE9;
+  --bg-card: #fdfcf9;
+  --ink: #434240;
+  --accent: #8A8D7A;
+  --accent-light: #b0b3a2;
+}
+* { box-sizing: border-box; }
+html, body {
+  margin: 0;
+  height: 100svh;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Montserrat', system-ui, sans-serif;
+  overflow-x: hidden;
+}
+
+/* =======================================
+   🌸 LANDING SCREEN
+======================================= */
+#landing-screen {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  height: 100svh;
+  z-index: 1;
+}
+.top-photo-container {
+  position: relative;
+  height: 80vh;
+  width: 100%;
+  overflow: hidden;
+  animation: fadeInDown 0.1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,0.95) 70%, transparent 100%);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.2));
+  box-shadow: inset 0 -30px 80px rgba(0,0,0,0.1);
+}
+.top-photo-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 35%;
+  display: block;
+  filter: brightness(0.95) contrast(1.1) saturate(1.1);
+  transform: scale(1.1);
+  animation: zoomParallax 6s ease-out forwards;
+}
+.top-photo-container::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.3));
+  pointer-events: none;
+}
+@keyframes zoomParallax {
+  0% { transform: scale(1.15) translateY(0); }
+  50% { transform: scale(1.1) translateY(-5px); }
+  100% { transform: scale(1) translateY(0); }
+}
+
+.bottom-content-area {
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  width: 100%;
+}
+.landing-content {
+  position: relative;
+  width: 100%;
+  background: #ffffff;
+  text-align: center;
+  padding: 0.5rem 1.5rem 4rem; 
+  min-height: 40vh;
+  box-shadow: 0 -10px 50px -20px rgba(0,0,0,0.15);
+  z-index: 10;
+  margin-top: 6rem;
+}
+.landing-wave {
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  z-index: 0;
+}
+.intro-text, .names, .date, .seal-prompt { 
+  opacity: 0; 
+  animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1) forwards; 
+}
+.intro-text { animation-delay: 0.8s; }
+.names { animation-delay: 1s; }
+.date { animation-delay: 1.2s; }
+.seal-prompt { animation-delay: 1.4s; }
+
+.intro-text {
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.names {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2.2rem, 8vw, 3.5rem);
+  margin: 0;
+  line-height: 1.1;
+  font-weight: 700;
+  text-shadow: 1px 1px 2px #b0b3a2;
+  color: #535a40;
+}
+.date {
+  font-size: 1rem;
+  margin: 1rem 0 2rem;
+  color: #8c8a86;
+}
+.seal-prompt {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 80px;
+  height: 80px;
+  background: #7A845E;
+  color: white;
+  border-radius: 50%;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  border: none;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+.seal-prompt:hover { transform: scale(1.1); }
+.seal-prompt:active { transform: scale(1); background-color: var(--accent-light); }
+
+/* =======================================
+   🌺 EFECTOS: PÉTALOS Y CONFETI
+======================================= */
+.petal {
+  position: fixed;
+  top: -10vh;
+  left: 0;
+  width: 10px;
+  height: 20px;
+  border-radius: 50%;
+  opacity: 0.8;
+  filter: blur(.5px);
+  animation: fall linear forwards;
+  background: linear-gradient(180deg, #f7d1c4, #f4a69c);
+  z-index: 5;
+}
+#confetti-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 999;
+  overflow: visible;
+}
+.confetti-piece {
+  position: absolute;
+  width: 8px;
+  height: 16px;
+  border-radius: 4px;
+  pointer-events: none;
+}
+
+
+/* =======================================
+   🎬 ANIMACIONES
+======================================= */
+@keyframes slideUp { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeInDown { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fall { to { transform: translateY(110vh) rotate(540deg) scale(var(--scale)); opacity: .4; } }
+
+/* =======================================
+   📱 RESPONSIVE
+======================================= */
+@media (max-width: 480px) {
+  .top-photo-container { height: 40vh; }
+  .top-photo-container img { object-position: center 40%; }
+  .landing-content { width: 100vw; padding: 0.5rem 1.5rem 2rem; }
+  #main-content .gallery img { width: 180px; height: 120px; }
+}
+
+
+
+
+/* =======================================
+   💍 MAIN CONTENT — ESTILO ELEGANTE BODA
+======================================= */
+
+/* Contenedor principal */
+#main-content {
+    display: none; /* Se activa con JS */
+    opacity: 0;
+    transition: opacity 1s ease;
+    padding: 0.05rem 2rem;
+    background: #ffffff; /* Fondo blanco elegante */
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+}
+
+/* Tarjetas generales */
+.card {
+    background: #fff;
+    padding: 2.5rem;
+    border-radius: 1.5rem;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    text-align: center;
+    border: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+}
+
+/* Títulos */
+h1, h2, h3 {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #444;
+}
+
+/* Texto cursivo romántico */
+.cursive-text {
+    font-family: 'Dancing Script', cursive;
+    font-weight: 400;
+    font-size: 1.6rem;
+    color: #8A8D7A; /* Verde oliva elegante */
+}
+
+/* Animaciones */
+.fade-in {
+    animation: fadeIn 1s ease-out forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Introducción --- */
+.section-intro h2 {
+    font-size: clamp(2rem, 6vw, 3.2rem);
+    color: #7A845E;
+    margin-bottom: 1rem;
+}
+.section-intro p {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 700px;
+    margin: 0.8rem auto;
+}
+.section-intro .cursive-text {
+    font-size: 1.6rem;
+    color: #444;
+    margin-bottom: 1.5rem;
+}
+
+/* --- Cuenta Regresiva --- */
+.section-countdown h3 {
+    font-size: 2rem;
+    color: #7A845E;
+    margin-bottom: 1.5rem;
+}
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+.countdown-timer div {
+    background: #fff;
+    color: #8A8D7A;
+    padding: 1rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    text-align: center;
+    min-width: 90px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    border: 1px solid #eaeaea;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.countdown-timer div:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 18px rgba(0,0,0,0.12);
+}
+.countdown-timer span {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.6rem;
+    font-weight: 700;
+    color: #535a40;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+/* --- Confirmación (RSVP) --- */
+#section-rsvp h3 {
+    font-size: 2rem;
+    color: #7A845E;
+    margin-bottom: 1rem;
+}
+#section-rsvp p {
+    max-width: 600px;
+    margin: 0 auto 2rem auto;
+    color: #555;
+}
+.rsvp-form {
+    max-width: 500px;
+    margin: 0 auto 2rem auto;
+}
+#invitado-info {
+    border-top: 1px solid #eee;
+    margin-top: 2.5rem;
+    padding-top: 2.5rem;
+    animation: fadeInUp 0.8s ease;
+}
+#invitado-info h2 {
+    font-size: clamp(1.8rem, 5vw, 2.5rem);
+    color: #8A8D7A;
+    margin-bottom: 1.5rem;
+}
+.guest-details {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+}
+.guest-details p {
+    font-size: 1.1rem;
+    margin: 0;
+    background: #f8f8f8;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+}
+.confirm-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.confirm-section label {
+    font-weight: 600;
+}
+.confirm-section input {
+    width: 80px;
+    padding: 0.6rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+}
+
+/* --- Detalles (Ceremonia y Recepción) --- */
+.section-details {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 4rem;
+}
+.event-card h3 {
+    font-size: 1.8rem;
+    color: #7A845E;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .5rem;
+}
+.event-card p {
+    font-size: 1rem;
+    color: #555;
+}
+.map {
+    width: 100%;
+    height: 250px;
+    border-radius: 1rem;
+    border: 1px solid #eee;
+    margin-top: 1.5rem;
+}
+
+/* =======================================
+   🖼️ GALERÍA DE IMÁGENES
+======================================= */
+
+.section-gallery h3 {
+    font-family: 'Playfair Display', serif; 
+    font-size: 1.8rem;
+    color: #7A845E; /* Usando la variable de color principal */
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.gallery {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center; /* Centra las imágenes horizontalmente */
+    gap: 1.5rem;
+    padding: 1rem 0;
+}
+
+/* --- Estilos base para las imágenes (escritorio) --- */
+.gallery img {
+    width: 300px;
+    height: 250px; 
+    object-fit: cover;
+    border-radius: 1.5rem;
+    border: 1.5px solid #808000; /* Usando un verde olivo más suave y un poco más grueso */
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    cursor: pointer;
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+/* --- Efecto al pasar el mouse --- */
+.gallery img:hover {
+    transform: scale(1.07) rotate(-2deg);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.18);
+}
+
+
+/* =======================================
+   📱 AJUSTES RESPONSIVOS PARA LA GALERÍA
+======================================= */
+
+/* --- Tablets (hasta 1024px de ancho) --- */
+@media (max-width: 1024px) {
+    .gallery img {
+        width: 250px;
+        height: 220px;
+    }
+}
+
+/* --- Tablets más pequeñas (hasta 768px de ancho) --- */
+@media (max-width: 768px) {
+    .gallery img {
+        width: 220px;
+        height: 190px;
+    }
+}
+
+/* --- Teléfonos (hasta 480px de ancho) --- */
+@media (max-width: 480px) {
+    .gallery img {
+        width: 160px;
+        height: 140px;
+    }
+}
+/* --- Mensaje Final --- */
+.section-romantic h3 {
+    font-size: 1.8rem;
+    color: #7A845E;
+    margin-bottom: 1rem;
+}
+.section-romantic p {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 600px;
+    margin: 1rem auto;
+}
+.section-romantic .signature {
+    font-size: clamp(1.6rem, 5vw, 2.8rem);
+    margin-top: 2rem;
+    color: #8A8D7A;
+}
+
+/* --- Botones --- */
+.btn-primary, .btn-secondary, .btn-map {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.9rem 1.8rem;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    text-align: center;
+    margin-top: 1rem;
+    border: none;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.btn-primary {
+    background: #8A8D7A;
+    color: white;
+}
+.btn-primary:hover {
+    background: #72755F;
+}
+.btn-secondary {
+    background: #fff;
+    color: #8A8D7A;
+    border: 2px solid #8A8D7A;
+}
+.btn-secondary:hover {
+    background: #8A8D7A;
+    color: #fff;
+}
+.btn-map {
+    background: #4A90E2;
+    color: white;
+    font-size: 0.9rem;
+}
+
+/* --- Mensajes --- */
+.error-msg, .success-msg {
+    font-weight: 600;
+    margin-top: 1rem;
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+}
+.error-msg {
+    background: #fdecea;
+    color: #e74c3c;
+}
+.success-msg {
+    background: #eafaf1;
+    color: #27ae60;
+}
+
+
+/* --- Logo con estilo moderno --- */
+#wedding-logo {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;       /* sin margen vertical */
+    padding: 0;           /* sin padding */
+}
+
+#wedding-logo img {
+    max-width: 370px;
+    height: auto;
+    animation: floatLogo 2s ease-in-out infinite, fadeInDown 1s ease both;
+}
+
+/* animación de flotación */
+@keyframes floatLogo {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+/* corazones a los lados, animación giratoria y pulsante */
+#wedding-logo::before,
+#wedding-logo::after {
+    content: "❤";
+    font-size: 2rem;
+    color: #bfcaad; /* verde olivo */
+    position: absolute;
+    top: 75%;
+    transform: translateY(-50%) rotate(0deg);
+    animation: spinPulse 2s infinite;
+    z-index: 15;
+}
+
+#wedding-logo::before { left: 5%; }
+#wedding-logo::after { right: 5%; }
+
+@keyframes spinPulse {
+    0%, 100% { transform: translateY(-50%) scale(1) rotate(0deg); }
+    25% { transform: translateY(-50%) scale(1.1) rotate(15deg); }
+    50% { transform: translateY(-50%) scale(1.2) rotate(0deg); }
+    75% { transform: translateY(-50%) scale(1.1) rotate(-15deg); }
+}
+
+
+
+
+
