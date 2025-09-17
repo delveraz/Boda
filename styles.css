@@ -154,7 +154,7 @@ html, body {
   filter: blur(.5px);
   animation: fall linear forwards;
   background: linear-gradient(180deg, #f7d1c4, #f4a69c);
-  z-index: 5;
+  z-index: 500;
 }
 #confetti-container {
   position: fixed;
@@ -338,38 +338,145 @@ h1, h2, h3 {
     color: #8A8D7A;
     margin-bottom: 1.5rem;
 }
+/* =========================================================
+    ✅ ESTILOS REFINADOS Y ESTRUCTURADOS PARA RSVP
+========================================================= */
+
+/* --- Estilos para las insignias de totales (más pequeños y alineados) --- */
 .guest-details {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
+    display: flex; /* Esto los pone uno al lado del otro */
+    justify-content: center; /* Centra los círculos horizontalmente */
+    align-items: center; /* Alinea verticalmente por si uno es más alto */
+    gap: 1rem; /* Espacio entre los círculos */
     margin-bottom: 2rem;
     flex-wrap: wrap;
 }
-.guest-details p {
-    font-size: 1.1rem;
-    margin: 0;
-    background: #f8f8f8;
-    padding: 0.5rem 1rem;
-    border-radius: 8px;
-}
-.confirm-section {
+
+.detail-badge {
+    width: 105px;  /* TAMAÑO REDUCIDO */
+    height: 105px; /* TAMAÑO REDUCIDO */
+    background: #fff;
+    border: 2px solid var(--accent-light);
+    border-radius: 50%;
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    gap: 1rem;
-    margin-top: 1rem;
-}
-.confirm-section label {
-    font-weight: 600;
-}
-.confirm-section input {
-    width: 80px;
-    padding: 0.6rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 8px;
+    justify-content: center;
     text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease, border-color 0.3s ease;
 }
+
+.detail-badge:hover {
+    transform: translateY(-5px);
+    border-color: var(--accent);
+}
+
+.detail-badge span {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;  /* TAMAÑO DE FUENTE AJUSTADO */
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1; /* Ajuste para centrar mejor el número */
+}
+
+.detail-badge small {
+    font-size: 0.65rem; /* TAMAÑO DE FUENTE AJUSTADO */
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 4px;
+    line-height: 1.2;
+}
+/* --- NUEVO DISEÑO DE TARJETAS PARA LA LISTA DE INVITADOS --- */
+
+#guest-list-container {
+    max-width: 450px; /* Un ancho ligeramente más compacto */
+    margin: 2rem auto;
+    display: grid; /* Usamos Grid para un control perfecto */
+    gap: 1rem; /* Espacio entre cada tarjeta de invitado */
+    border: none; /* Eliminamos el borde contenedor anterior */
+    box-shadow: none;
+}
+
+.guest-card {
+    background: #fff;
+    border: 1px solid #f0f0f0;
+    border-radius: 12px;
+    padding: 1.25rem 1.5rem;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+    transition: transform 0.2s ease-out, box-shadow 0.2s ease-out;
+}
+
+.guest-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+.guest-name {
+    font-size: 1.2rem; /* Nombre más prominente */
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 1rem; /* Espacio entre el nombre y los botones */
+    text-align: center; /* Centramos el nombre */
+    display: block; /* Aseguramos que ocupe todo el ancho */
+}
+
+.attendance-buttons {
+    display: flex;
+    justify-content: center; /* Centramos los botones */
+    gap: 0.75rem;
+}
+
+/* Estilo base de los botones: sutil y elegante */
+.attendance-btn {
+    border: 2px solid #ddd;
+    background-color: transparent;
+    color: #777;
+    padding: 0.4rem 1.2rem;
+    border-radius: 50px; /* Totalmente redondeados */
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 0.9rem;
+    transition: all 0.2s ease-in-out;
+    flex-grow: 1; /* Hacemos que los botones ocupen el mismo espacio */
+    max-width: 150px; /* Ancho máximo para que no se estiren demasiado */
+}
+
+.attendance-btn:hover:not(.selected) {
+    border-color: var(--accent-light);
+    color: var(--ink);
+}
+
+/* --- ESTILOS DE SELECCIÓN INTEGRADOS CON EL TEMA --- */
+
+/* Botón "Sí" seleccionado: USA EL COLOR DE ACENTO */
+.attendance-btn.si.selected {
+    background-color: var(--accent); /* Tu verde olivo */
+    border-color: var(--accent);
+    color: white;
+}
+
+/* Botón "No" seleccionado: UN TONO NEUTRO Y ELEGANTE */
+.attendance-btn.no.selected {
+    background-color: #6c757d; /* Un gris neutro y sofisticado */
+    border-color: #6c757d;
+    color: white;
+}
+
+/* Estilo para el botón de confirmación final */
+#btn-confirmar-lista {
+    margin-top: 2rem;
+    padding: 0.9rem 2rem;
+    font-size: 1.1rem;
+    width: 100%; /* Ocupa todo el ancho del contenedor */
+    max-width: 450px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
 
 /* --- Detalles (Ceremonia y Recepción) --- */
 .section-details {
@@ -391,12 +498,20 @@ h1, h2, h3 {
     font-size: 1rem;
     color: #555;
 }
-.map {
-    width: 100%;
-    height: 250px;
-    border-radius: 1rem;
-    border: 1px solid #eee;
-    margin-top: 1.5rem;
+
+/* Pon o reemplaza esto en la sección de botones de tu styles.css */
+.btn-map {
+    background-color: var(--accent); /* Color de fondo acorde al tema (verde olivo) */
+    color: white;
+    font-size: 0.9rem;
+    gap: 0.5rem; /* Añade un espacio entre el icono y el texto */
+    transition: all 0.3s ease; /* Transición suave para el hover */
+}
+
+.btn-map:hover {
+    background-color: #72755F; /* Un tono de verde olivo ligeramente más oscuro */
+    transform: translateY(-2px); /* Efecto sutil al pasar el mouse */
+    box-shadow: 0 6px 15px rgba(0,0,0,0.1);
 }
 
 /* =======================================
@@ -516,11 +631,7 @@ h1, h2, h3 {
     background: #8A8D7A;
     color: #fff;
 }
-.btn-map {
-    background: #4A90E2;
-    color: white;
-    font-size: 0.9rem;
-}
+
 
 /* --- Mensajes --- */
 .error-msg, .success-msg {
@@ -584,7 +695,203 @@ h1, h2, h3 {
     75% { transform: translateY(-50%) scale(1.1) rotate(-15deg); }
 }
 
+/* =======================================
+   ✨ NUEVOS ESTILOS DECORATIVOS
+======================================= */
+
+/* --- 1. Separador Decorativo --- */
+.section-separator {
+    position: relative;
+    padding-bottom: 4.5rem; /* Espacio extra para el adorno */
+    margin-bottom: 2rem;
+}
+
+.section-separator::after {
+    content: '• ⚜ •'; /* Puedes usar '🌿' o '❤' si prefieres */
+    font-size: 1.5rem;
+    color: var(--accent-light);
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translateX(-50%);
+    opacity: 0.8;
+}
 
 
+/* --- 2. Títulos con Gradiente Sutil --- */
+.section-intro h2,
+.card h3 {
+    background: linear-gradient(45deg, var(--accent), #5E6152);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-fill-color: transparent;
+}
 
 
+/* --- 3. Micro-animación en Iconos al pasar el mouse --- */
+.card .icon-accent {
+    transition: transform 0.4s ease;
+}
+
+.card:hover .icon-accent {
+    transform: scale(1.2) rotate(-10deg);
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+
+/* --- 4. Efecto de "Glow" Sutil en Botones --- */
+.btn-primary:hover,
+.btn-map:hover,
+.btn-secondary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px 0 rgba(138, 141, 122, 0.35);
+}
+
+/* --- (Opcional) Estilos para las secciones que añadimos antes --- */
+/* (Los incluimos aquí por si no los tenías) */
+.section-story h3,
+.section-dresscode h3,
+.section-gifts h3 {
+    font-size: 1.8rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: .75rem;
+}
+
+.section-story p,
+.section-dresscode p,
+.section-gifts p {
+    font-size: 1.1rem;
+    color: #555;
+    max-width: 650px;
+    margin: 1rem auto;
+    line-height: 1.6;
+}
+
+.dresscode-text {
+    display: inline-block;
+    padding: 0.6rem 1.8rem;
+    border: 2px solid var(--accent-light);
+    border-radius: 50px;
+    margin-top: 1rem;
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: var(--accent);
+    background-color: #fdfdfd;
+}
+
+
+/* =======================================
+    VECTOR DECORATIVO DE PAREJA
+======================================= */
+
+.couple-vector {
+    /* Centramos el contenedor */
+    display: flex;
+    justify-content: center;
+    margin-bottom: 2rem; /* Espacio entre la imagen y el título */
+}
+
+.couple-vector img {
+    max-width: 150px; /* Ajusta el tamaño del vector aquí */
+    height: auto;
+    /* --- CAMBIOS AQUÍ --- */
+    opacity: 0.8; /* Menos transparente para un color más sólido */
+    filter: brightness(0.9) contrast(1.5); /* Reduce brillo y aumenta contraste */
+    /* --- FIN DE CAMBIOS --- */
+}
+
+
+/* =======================================
+   🦋 MARIPOSAS VOLANDO (VUELO LENTO Y ALEATORIO)
+======================================= */
+
+.butterfly-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 999;
+    overflow: hidden;
+}
+
+.butterfly {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-image: url('https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcWJzc3pkeThnMXQ0aG0zaW52d2NjanB1eTFnbzlhc2ZsaXhvd3d2ciZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/ncLebeAdKrBXGLI9qv/giphy.gif');
+    background-size: contain;
+    background-repeat: no-repeat;
+    animation-timing-function: linear;
+    animation-iteration-count: infinite;
+}
+
+/* --- Mariposa 1: Vuelo Lento y Alto --- */
+.butterfly:nth-child(1) {
+    width: 60px;
+    height: 60px;
+    left: -10%;
+    top: 15%;
+    animation-name: flyRoute1; /* Ruta de vuelo 1 */
+    animation-duration: 22s;   /* MÁS LENTO: Tarda 22 segundos */
+    animation-delay: 0s;
+}
+
+/* --- Mariposa 2: Vuelo Medio con Curvas --- */
+.butterfly:nth-child(2) {
+    width: 40px;
+    height: 40px;
+    left: -15%;
+    top: 60%;
+    animation-name: flyRoute2; /* Ruta de vuelo 2 */
+    animation-duration: 25s;   /* MÁS LENTO: Tarda 25 segundos */
+    animation-delay: 5s;
+}
+
+/* --- Mariposa 3: Vuelo Bajo y Rápido --- */
+.butterfly:nth-child(3) {
+    width: 55px;
+    height: 55px;
+    left: -20%;
+    top: 80%;
+    animation-name: flyRoute3; /* Ruta de vuelo 3 */
+    animation-duration: 18s;   /* MÁS LENTO: Tarda 18 segundos */
+    animation-delay: 2s;
+}
+
+
+/* --- NUEVAS RUTAS DE VUELO ALEATORIAS --- */
+
+/* Ruta 1: Un camino suave y ondulado */
+@keyframes flyRoute1 {
+    0% { transform: translateX(0) translateY(0) rotate(5deg); }
+    20% { transform: translateX(20vw) translateY(-10vh) rotate(-10deg); }
+    40% { transform: translateX(40vw) translateY(5vh) rotate(15deg); }
+    60% { transform: translateX(60vw) translateY(-5vh) rotate(-5deg); }
+    80% { transform: translateX(80vw) translateY(10vh) rotate(20deg); }
+    100% { transform: translateX(110vw) translateY(0) rotate(0deg); }
+}
+
+/* Ruta 2: Un camino más errático, con subidas y bajadas pronunciadas */
+@keyframes flyRoute2 {
+    0% { transform: translateX(0) translateY(0) rotate(-15deg); }
+    30% { transform: translateX(35vw) translateY(15vh) rotate(25deg); }
+    50% { transform: translateX(55vw) translateY(-20vh) rotate(-5deg); }
+    70% { transform: translateX(75vw) translateY(10vh) rotate(15deg); }
+    100% { transform: translateX(110vw) translateY(0) rotate(5deg); }
+}
+
+/* Ruta 3: Un vuelo más directo pero con pequeños aleteos y cambios de dirección */
+@keyframes flyRoute3 {
+    0% { transform: translateX(0) translateY(0) rotate(10deg); }
+    25% { transform: translateX(25vw) translateY(-5vh) rotate(5deg); }
+    50% { transform: translateX(50vw) translateY(2vh) rotate(-15deg); }
+    75% { transform: translateX(75vw) translateY(-8vh) rotate(20deg); }
+    100% { transform: translateX(110vw) translateY(0) rotate(0deg); }
+}
