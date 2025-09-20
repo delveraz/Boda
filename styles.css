@@ -4,8 +4,8 @@
 :root {
   --bg: #F0EEE9;
   --bg-card: #fdfcf9;
-  --ink: #434240;
-  --accent: #8A8D7A;
+  --ink: #888684;
+  --accent: #9ea18c;
   --accent-light: #b0b3a2;
 }
 * { box-sizing: border-box; }
@@ -156,20 +156,7 @@ html, body {
   background: linear-gradient(180deg, #f7d1c4, #f4a69c);
   z-index: 500;
 }
-#confetti-container {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 999;
-  overflow: visible;
-}
-.confetti-piece {
-  position: absolute;
-  width: 8px;
-  height: 16px;
-  border-radius: 4px;
-  pointer-events: none;
-}
+
 
 
 /* =======================================
@@ -201,13 +188,58 @@ html, body {
 #main-content {
     display: none; /* Se activa con JS */
     opacity: 0;
-    transition: opacity 1s ease;
     padding: 0.05rem 2rem;
     background: #ffffff; /* Fondo blanco elegante */
     max-width: 1000px;
     margin: 0 auto;
     border-radius: 20px;
     box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+
+    /*
+     * CORRECCIÓN: Se combinan ambas transiciones aquí.
+     * La opacidad cambiará en 1 segundo y el barrido en 1.2 segundos.
+     */
+    transition: opacity 1s ease, clip-path 1.2s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* Estado final de la animación */
+#main-content.is-revealing {
+    /* El círculo se expande hasta cubrir la pantalla desde el punto de origen */
+    clip-path: circle(150vmax at var(--clip-x) var(--clip-y));
+}
+
+
+/* Opcional: elimina el confeti si aún tienes sus estilos */
+#confetti-container, .confetti-piece {
+    display: none;
+}
+
+
+/* =======================================
+   ✨ ESTILOS PARA LUCES Y ESTRELLAS REVELADORAS
+======================================= */
+
+.sparkle-reveal {
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999; /* Asegúrate de que estén por encima de todo */
+}
+
+/* Estilo para las "luces" (círculos) */
+.sparkle-reveal.light {
+    width: 10px; /* Un poco más grandes */
+    height: 10px;
+    border-radius: 50%;
+    box-shadow: 0 0 12px 3px currentColor; /* Usa currentColor para el box-shadow */
+    opacity: 0.8;
+}
+
+/* Estilo para las "estrellas" (forma de estrella) */
+.sparkle-reveal.star {
+    width: 12px; /* Un poco más grandes */
+    height: 12px;
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    opacity: 0.9;
 }
 
 /* Tarjetas generales */
@@ -220,6 +252,7 @@ html, body {
     text-align: center;
     border: none;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
+    
 }
 .card:hover {
     transform: translateY(-4px);
@@ -236,7 +269,7 @@ h1, h2, h3 {
 
 /* Texto cursivo romántico */
 .cursive-text {
-    font-family: 'Dancing Script', cursive;
+    font-family: 'Dancing Script';
     font-weight: 400;
     font-size: 1.6rem;
     color: #8A8D7A; /* Verde oliva elegante */
@@ -263,13 +296,13 @@ h1, h2, h3 {
 }
 .section-intro p {
     font-size: 1.1rem;
-    color: #555;
+    color: #6D6A68; 
     max-width: 700px;
     margin: 0.8rem auto;
 }
 .section-intro .cursive-text {
     font-size: 1.6rem;
-    color: #444;
+    color: #8A8D7A;
     margin-bottom: 1.5rem;
 }
 
@@ -321,7 +354,7 @@ h1, h2, h3 {
 #section-rsvp p {
     max-width: 600px;
     margin: 0 auto 2rem auto;
-    color: #555;
+    color: #6D6A68; 
 }
 .rsvp-form {
     max-width: 500px;
@@ -496,7 +529,7 @@ h1, h2, h3 {
 }
 .event-card p {
     font-size: 1rem;
-    color: #555;
+    color: #6D6A68; 
 }
 
 /* Pon o reemplaza esto en la sección de botones de tu styles.css */
@@ -557,6 +590,7 @@ h1, h2, h3 {
    📱 AJUSTES RESPONSIVOS PARA LA GALERÍA
 ======================================= */
 
+
 /* --- Tablets (hasta 1024px de ancho) --- */
 @media (max-width: 1024px) {
     .gallery img {
@@ -579,6 +613,8 @@ h1, h2, h3 {
         width: 160px;
         height: 140px;
     }
+    
+    
 }
 /* --- Mensaje Final --- */
 .section-romantic h3 {
@@ -734,10 +770,6 @@ h1, h2, h3 {
     transition: transform 0.4s ease;
 }
 
-.card:hover .icon-accent {
-    transform: scale(1.2) rotate(-10deg);
-    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-}
 
 
 /* --- 4. Efecto de "Glow" Sutil en Botones --- */
@@ -839,7 +871,7 @@ h1, h2, h3 {
     left: -10%;
     top: 15%;
     animation-name: flyRoute1; /* Ruta de vuelo 1 */
-    animation-duration: 22s;   /* MÁS LENTO: Tarda 22 segundos */
+    animation-duration: 32s;  /* Antes era 22s */
     animation-delay: 0s;
 }
 
@@ -850,7 +882,7 @@ h1, h2, h3 {
     left: -15%;
     top: 60%;
     animation-name: flyRoute2; /* Ruta de vuelo 2 */
-    animation-duration: 25s;   /* MÁS LENTO: Tarda 25 segundos */
+    animation-duration: 35s;  /* Antes era 25s */
     animation-delay: 5s;
 }
 
@@ -861,37 +893,33 @@ h1, h2, h3 {
     left: -20%;
     top: 80%;
     animation-name: flyRoute3; /* Ruta de vuelo 3 */
-    animation-duration: 18s;   /* MÁS LENTO: Tarda 18 segundos */
+    animation-duration: 30s;  /* Antes era 18s */
     animation-delay: 2s;
 }
 
-
-/* --- NUEVAS RUTAS DE VUELO ALEATORIAS --- */
-
-/* Ruta 1: Un camino suave y ondulado */
+/* Ruta 1: Un camino suave y ANCHO con caída ligera */
 @keyframes flyRoute1 {
-    0% { transform: translateX(0) translateY(0) rotate(5deg); }
-    20% { transform: translateX(20vw) translateY(-10vh) rotate(-10deg); }
-    40% { transform: translateX(40vw) translateY(5vh) rotate(15deg); }
-    60% { transform: translateX(60vw) translateY(-5vh) rotate(-5deg); }
-    80% { transform: translateX(80vw) translateY(10vh) rotate(20deg); }
-    100% { transform: translateX(110vw) translateY(0) rotate(0deg); }
+    0%   { transform: translateX(0vw)    translateY(-20vh)  rotate(5deg); } /* Inicia más arriba */
+    25%  { transform: translateX(30vw)   translateY(5vh)    rotate(-10deg); }
+    50%  { transform: translateX(55vw)   translateY(20vh)   rotate(15deg); }
+    75%  { transform: translateX(80vw)   translateY(35vh)   rotate(-5deg); }
+    100% { transform: translateX(110vw)  translateY(50vh)   rotate(0deg); }
 }
 
-/* Ruta 2: Un camino más errático, con subidas y bajadas pronunciadas */
+/* Ruta 2: Un cruce errático y ANCHO con descenso suave */
 @keyframes flyRoute2 {
-    0% { transform: translateX(0) translateY(0) rotate(-15deg); }
-    30% { transform: translateX(35vw) translateY(15vh) rotate(25deg); }
-    50% { transform: translateX(55vw) translateY(-20vh) rotate(-5deg); }
-    70% { transform: translateX(75vw) translateY(10vh) rotate(15deg); }
-    100% { transform: translateX(110vw) translateY(0) rotate(5deg); }
+    0%   { transform: translateX(0vw)    translateY(-20vh)  rotate(-15deg); } /* Inicia más arriba */
+    30%  { transform: translateX(40vw)   translateY(10vh)   rotate(25deg); }
+    50%  { transform: translateX(60vw)   translateY(25vh)   rotate(-5deg); }
+    70%  { transform: translateX(85vw)   translateY(40vh)   rotate(15deg); }
+    100% { transform: translateX(115vw)  translateY(60vh)   rotate(5deg); }
 }
 
-/* Ruta 3: Un vuelo más directo pero con pequeños aleteos y cambios de dirección */
+/* Ruta 3: Un vuelo más directo y ANCHO */
 @keyframes flyRoute3 {
-    0% { transform: translateX(0) translateY(0) rotate(10deg); }
-    25% { transform: translateX(25vw) translateY(-5vh) rotate(5deg); }
-    50% { transform: translateX(50vw) translateY(2vh) rotate(-15deg); }
-    75% { transform: translateX(75vw) translateY(-8vh) rotate(20deg); }
-    100% { transform: translateX(110vw) translateY(0) rotate(0deg); }
+    0%   { transform: translateX(0vw)    translateY(-20vh)  rotate(10deg); } /* Inicia más arriba */
+    25%  { transform: translateX(35vw)   translateY(0vh)    rotate(5deg); }
+    50%  { transform: translateX(65vw)   translateY(15vh)   rotate(-15deg); }
+    75%  { transform: translateX(90vw)   translateY(30vh)   rotate(20deg); }
+    100% { transform: translateX(110vw)  translateY(45vh)   rotate(0deg); }
 }
