@@ -22,6 +22,17 @@ html, body {
   overflow-x: hidden;
 }
 
+/* 🚫 Ignorar preferencias de dark mode */
+@media (prefers-color-scheme: dark) {
+  :root, html, body {
+    background: var(--bg) !important;
+    color: var(--ink) !important;
+  }
+  img, picture, video, iframe {
+    filter: none !important; /* Evita inversión automática */
+  }
+}
+
 /* =======================================
    🌸 LANDING SCREEN
 ======================================= */
