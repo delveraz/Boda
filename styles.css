@@ -739,12 +739,22 @@ h1, h2, h3 {
 /* corazones a los lados, animación giratoria y pulsante */
 #wedding-logo::before,
 #wedding-logo::after {
-    content: "❤";
+    /* --- INICIO DE LOS CAMBIOS --- */
+
+    /* 1. Cambiamos el emoji por el código del ícono de corazón de Font Awesome */
+    content: '\f004';
+
+    /* 2. Le decimos al navegador que use la fuente de Font Awesome para renderizarlo */
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900; /* El peso 900 es para el estilo de corazón sólido */
+
+    /* --- FIN DE LOS CAMBIOS --- */
+
     font-size: 2rem;
-    color: #bfcaad; /* verde olivo */
+    color: #bfcaad; /* Ahora este color se aplicará correctamente en TODOS los navegadores */
     position: absolute;
     top: 75%;
-    transform: translateY(-50%) rotate(0deg);
+    transform: translateY(-50%);
     animation: spinPulse 2s infinite;
     z-index: 15;
 }
