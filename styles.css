@@ -7,7 +7,11 @@
   --ink: #888684;
   --accent: #9ea18c;
   --accent-light: #b0b3a2;
+   color-scheme: only light; /* Evita que los navegadores cambien a oscuro */
 }
+
+
+
 * { box-sizing: border-box; }
 html, body {
   margin: 0;
