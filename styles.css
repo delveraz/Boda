@@ -607,15 +607,43 @@ h1, h2, h3 {
     }
 }
 
-/* --- Teléfonos (hasta 480px de ancho) --- */
+/* --- Estilos para Teléfonos (hasta 480px de ancho) --- */
 @media (max-width: 480px) {
-    .gallery img {
-        width: 160px;
-        height: 140px;
+
+    .gallery {
+        /* 1. Usamos CSS Grid para un control total de la cuadrícula */
+        display: grid;
+
+        /* 2. Definimos 2 columnas de igual tamaño que ocupan el espacio disponible */
+        grid-template-columns: repeat(2, 1fr);
+
+        /* 3. Definimos un espacio de separación mínimo entre las fotos */
+        gap: 5px;
+        
+        /* Relleno opcional para que la galería no toque los bordes de la pantalla */
+        padding: 5px;
+    }
+
+    .gallery a img {
+        /* 4. Hacemos que la imagen llene el 100% de la celda de la cuadrícula */
+        width: 100%;
+
+        /* 5. Damos una altura fija para que todas las filas sean uniformes */
+        height: 120px;
+
+        /* 6. ¡La propiedad clave! Asegura que la imagen llene la celda sin deformarse.
+              La imagen se recortará si es necesario para encajar, manteniendo su aspecto. */
+        object-fit: cover;
+        
+        display: block;
+        border-radius: 6px; /* Bordes redondeados suaves */
     }
     
+
     
 }
+
+
 /* --- Mensaje Final --- */
 .section-romantic h3 {
     font-size: 1.8rem;
