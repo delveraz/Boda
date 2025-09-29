@@ -16,8 +16,8 @@
 html, body {
   margin: 0;
   height: 100svh;
-  background: var(--bg);
-  color: var(--ink);
+  background: var(--bg) !important;
+  color: var(--ink) !important;
   font-family: 'Montserrat', system-ui, sans-serif;
   overflow-x: hidden;
 }
