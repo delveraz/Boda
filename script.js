@@ -251,7 +251,7 @@ btnConfirmarLista.addEventListener("click", async () => {
     // --- 6. FUNCIÓN DEL CONTADOR ---
 
     function startCountdown() {
-        const weddingDate = new Date("October 25, 2025 16:00:00").getTime();
+        const weddingDate = new Date("October 25, 2025 16:30:00").getTime();
         const countdownInterval = setInterval(() => {
             const now = new Date().getTime();
             const distance = weddingDate - now;

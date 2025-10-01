@@ -29,7 +29,7 @@ html, body {
     color: var(--ink) !important;
   }
   img, picture, video, iframe {
-    filter: none !important; /* Evita inversión automática */
+    filter: none !important; 
   }
 }
 
